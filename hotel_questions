@@ -1,0 +1,13 @@
+Logic - Open Qestions 
+
+Hotel	
+	not one ordering per lock, one global ordering and each lock has a subset of keys
+	could a room have no Keys??
+
+	fun NextKey -- ambiguity in the multiplicity of the return 
+
+
+	init.first
+
+	design point: why not use a sequence of keys per room? the global ordering is weird
+
