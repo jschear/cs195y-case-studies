@@ -1,0 +1,48 @@
+Logic - Open Qestions 
+
+---HOTEL---
+
+not one ordering per lock, one global ordering and each lock has a subset of keys
+could a room have no Keys??
+	handled by the following constraint
+
+fun NextKey -- ambiguity in the multiplicity of the return 
+	min returns lone element
+
+init.first -- how do we know that this is Time's first, not keys?
+	alloy's typechecker can handle this
+
+design point: why not use a sequence of keys per room? the global ordering is weird
+	representing numbers in real world
+	could have appeared before built-in seq notation
+
+does this handle multiple guests getting keys to a room?
+	bring this up in the review
+
+dot in pred name - refresher?
+	receiver pattern syntax
+
+Standard vs. Event-based
+	frame conditions less elegant but only have to happen once
+		the frame condition fall in traces, which seems like a better choice of model 
+	better for visualization, more object-oriented - might be a better model of the world
+
+
+---MEMORY---
+
+--  addrs <: c.cache vs. addrs -> Data
+
+so the idea is that loads and flushes can happen between any of our operations?
+
+226: nondeterminism in different ways with same observable effect?
+
+in checkCache, does it create the parametrized sigs?
+	seems to create disjoint, top-level sigs for us
+
+refinement condition: any concrete op should correspond to some abstract operation => conformance
+conformance vs. applicability
+1. concrete traces are a set of all traces in the abstract model -- never does anything BAD (true if it has no traces at all)
+2. abstract traces have a corresponding trace in the concrete model -- does GOOD things
+
+testing applicability requires higher order quantification, so alloy isn't great at it
+

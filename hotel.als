@@ -7,8 +7,12 @@ sig Key,Time {}
 
 sig Room{
 	keys: set Key, -- the subset of the keys that belong to this room -- could a room have no Keys??
-	currentKey: keys one ->Time -- injective relation of keys to time. No two keys in the same room map to the same time
+	currentKey: keys one ->Time -- surjective relation of keys to time. No two keys in the same room map to the same time
 }
+
+check{
+	all r:Room| some r.keys
+}for 3 but 0 Time
 
 fact DisjointKeySets{
 	/*explanation: 
@@ -97,7 +101,8 @@ pred noGuestChangeExcept[t, t': Time, gs: set Guest] {
 
 /** Traces **/
 fact Traces {
-	first.init -- how do we know that this is Time's first, not keys?
+	--first.init -- how do we know that this is Time's first, not keys?
+	init[first]
 	all t: Time - last | let t' = t.next | -- between each timestep, either an entry, a checkin, or a checkout occurs
 		some g: Guest, r: Room, k: Key |
 			entry[t, t', g, r, k]
@@ -106,10 +111,16 @@ fact Traces {
 	-- we don't need to make sure only one of these happens because the frame conditions ensure it
 }
 
+assert OneOccupant {
+	all t: Time, r: Room, g: Guest, k: Key |
+		let o = FrontDesk.occupant.t[r] | -- whenever a guest g enters a room, that guest must be listed as an occupant of the room
+			lone o -- o is set of room's occupants, g is the guest that enters
+}
+
 assert NoBadEntry {
 	all t: Time, r: Room, g: Guest, k: Key |
 		let o = FrontDesk.occupant.t[r] | -- whenever a guest g enters a room, that guest must be listed as an occupant of the room
-			entry[t, t.next, g, r, k] and some o => g in o -- o is set of room's occupants, g is the guest that enters
+			entry[t, t.next, g, r, k] /*and some o*/ => g in o -- o is set of room's occupants, g is the guest that enters
 }
 
 fact noIntervening {
@@ -118,5 +129,9 @@ fact noIntervening {
 			checkin[t, t', g, r, k] => (entry[t', t'', g, r, k] or no t'') -- either the checkin was the last action, or the guest immediately enters the room
 	-- q: is this realistic?
 }
+
+// After adding the NoIntervening fact,
+// this command no longer generates a counterexample
+check NoBadEntry for 5 but 3 Room, 3 Guest, 9 Time
 
 run {}

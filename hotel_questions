@@ -1,13 +1,24 @@
 Logic - Open Qestions 
 
-Hotel	
-	not one ordering per lock, one global ordering and each lock has a subset of keys
-	could a room have no Keys??
+---HOTEL---
 
-	fun NextKey -- ambiguity in the multiplicity of the return 
+not one ordering per lock, one global ordering and each lock has a subset of keys
+could a room have no Keys??
+
+fun NextKey -- ambiguity in the multiplicity of the return 
+
+init.first -- how do we know that this is Time's first, not keys?
+
+design point: why not use a sequence of keys per room? the global ordering is weird
+
+does this handle multiple guests getting keys to a room.
+
+dot in pred name - refresher?
+
+Standard vs. Event-based
+	frame conditions less elegant but only have to happen once
+		the frame condition fall in traces, which seems like a better choice of model 
+	better for visualization, more object-oriented - might be a better model of the world
 
 
-	init.first
-
-	design point: why not use a sequence of keys per room? the global ordering is weird
-
+---MEMORY---
